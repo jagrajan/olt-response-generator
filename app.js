@@ -15,6 +15,7 @@ var session = require('express-session');
 var home = require('./routes/home');
 var users = require('./routes/users');
 var editor = require('./routes/editor');
+var snippets = require('./routes/snippets');
 
 var app = express();
 
@@ -66,6 +67,7 @@ function ensureAuthenticated(req, res, next) {
 app.use('/', home);
 app.use('/users', ensureAuthenticated, users);
 app.use('/editor', ensureAuthenticated, editor);
+app.use('/snippets', ensureAuthenticated, snippets);
 
 
 // catch 404 and forward to error handler

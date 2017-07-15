@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+    .ui.container.fluid(style='padding: 0 25px;')
+        if snippets && snippets.length
+            .ui.cards
+                for snippet in snippets
+                    a.card(href="#")
+                        .content
+                            .header= snippet.title
+                            .meta= snippet.type.charAt(0).toUpperCase() + snippet.type.slice(1)
+                            .description= snippet.content
+                            .meta.right.aligned= 'Submitted by ' + snippet.author.displayName()
