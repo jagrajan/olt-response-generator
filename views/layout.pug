@@ -30,8 +30,13 @@ html
                       .item
                         a(href='/users') All Users
                   .column
-                    h4.ui.header My content
-                    .ui.button My Content
+                    .ui.list
+                      .item
+                        h4.ui.header Snippets
+                      .item
+                        a(href="/editor/edit") Create a Snippet
+                      .item
+                        a(href="/snippets") View Snippets
               a.ui.item(href='/logout')
                 i.sign.out.icon
                 | Log Out

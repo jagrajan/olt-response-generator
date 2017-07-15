@@ -1,0 +1,42 @@
+extends ../layout
+
+block stylesheets
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css')
+block content
+    .ui.container
+        if infos && infos.length
+            .ui.info.message
+                .header Information
+                ul.list
+                    for info in infos
+                        li #{info}
+        if errors && errors.length
+            .ui.error.message
+                .header There were some errors
+                ul.list
+                    for error in errors
+                        li #{error}
+        form.ui.form(method='post')
+            //input(type='hidden', value='documentId')
+            .two.fields
+                .field
+                    label Title
+                    input(type='text', name='title', placeholder='Title')
+                .field
+                    label Category
+                    select.ui.fluid.dropdown(name='category')
+                        option(value='stockphrase') Stockphrase
+                        option(value='snippet') Snippet
+                        option(value='template') Template
+            .ui.segment
+                .field
+                    .ui.toggle.checkbox
+                        input.hidden(type='checkbox', name='private')
+                        label Keep private
+            .field
+                label Content
+                textarea#main-editor(name='content')
+            button.ui.button(type='submit') Save
+block scripts
+    script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
+    script(src='/javascripts/editor/edit.js')
