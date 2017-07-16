@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css' integrity='sha256-5+W3JHnvGYIJkVxUBsw+jBi9+pOlu9enPX3vZapXj5M=' crossorigin='anonymous')
+    block stylesheets
+  body
+    .ui.vertical.center.aligned.segment(style='margin-bottom:10px')
+      .ui.container
+        .ui.large.secondary.menu
+          a.item(href='/')
+            i.home.icon
+            | Home
+          a.item(href='/editor') 
+            i.write.icon
+            | Editor
+          .right.menu
+            if currentUser
+              a.ui.item.profile-menu-item(href='#')
+                i.user.icon
+                | #{currentUser.displayName()}
+              .ui.flowing.bottom.left.transition.hidden.popup.profile-menu-item-popup
+                .ui.two.column.divided.left.aligned.grid
+                  .column
+                    .ui.list
+                      .item
+                        h4.ui.header Users
+                      .item
+                        a(href='/users/profile') My Profile
+                      .item
+                        a(href='/users') All Users
+                  .column
+                    h4.ui.header My content
+                    .ui.button My Content
+              a.ui.item(href='/logout')
+                i.sign.out.icon
+                | Log Out
+            else
+              a.ui.item(href='/register')
+                i.add.user.icon
+                | Register
+              a.ui.item(href="/login")
+                i.sign.in.icon
+                | Log In
+    block content
+    
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=' crossorigin='anonymous')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js' integrity='sha256-97Q90i72uoJfYtVnO2lQcLjbjBySZjLHx50DYhCBuJo=' crossorigin='anonymous')
+    script(src='/javascripts/layout.js')
+    block scripts

@@ -1,0 +1,47 @@
+extends ../layout
+
+block content
+    .ui.container
+        .ui.one.column.grid
+            .column(style='padding-bottom: 30px')                
+                a.ui.button.labeled.icon(href='/users')
+                    i.icon.reply
+                    | Back to user listing
+        if user
+            if (currentUser.role === 'admin' || currentUser._id.equals(user._id))
+                form.ui.form(method='post')
+                    if errors && errors.length
+                            .ui.info.message
+                                ul
+                                    for error in errors
+                                        li #{error}
+                    h4.ui.dividing.header Profile Information
+                    .two.fields
+                        .field
+                            label Email
+                            input(type='email', name='email', value=user.email)
+                        .field
+                            label Display Name
+                            input(type='text', name='displayName', value=user.name)
+                    if currentUser.role === 'admin'
+                        h4.ui.dividing.header Administrator Options
+                        .field
+                            label Role
+                            select.ui.dropdown(name='role')
+                                if (user.role === 'admin')
+                                    option(value='admin' selected) Administrator
+                                else
+                                    option(value='admin') Administrator
+                                if (user.role === 'regular')
+                                    option(value='regular' selected) Regular
+                                else
+                                    option(value='regular') Regular
+                                if (user.role === 'subhuman')
+                                    option(value='subhuman' selected) Invalid
+                                else
+                                    option(value='subhuman') Invalid
+                    button.ui.button(type='submit') Update
+            else
+                h1 You are viewing someone else's profile
+        else
+            h1 No User Found

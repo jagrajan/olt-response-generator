@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+    .ui.container
+        form.ui.large.form(method="post")
+            .ui.grid
+                .ui.three.column.grid.stackable
+                    .four.wide.column
+                    .eight.wide.column
+                        if errors && errors.length
+                            .ui.info.message
+                                ul
+                                    for error in errors
+                                        li #{error}
+                        .ui.error.message
+                        .field
+                            .ui.left.icon.input
+                                i.user.icon
+                                input(type='text', name='email', placeholder='Email', value='jag@jagrajan.com')
+                        .field
+                            .ui.left.icon.input
+                                i.lock.icon
+                                input(type='password', name='password', placeholder='Password', value='password')
+                        button.ui.large.button.submit.fluid.green(type='submit') Log In
+                        .ui.message 
+                            | Don't have an account?&nbsp;
+                            a(href='/register') Click here
+                            | &nbsp;to register.
+                    .four.wide.column
+block scripts
+    script(src='/javascripts/home/login.js')

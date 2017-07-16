@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+    .ui.container
+        form.ui.large.form(method="post")
+            .ui.aligned.grid
+                .ui.three.column.grid.stackable
+                    .four.wide.column
+                    .eight.wide.column
+                        if errors && errors.length
+                            .ui.info.message
+                                ul
+                                    for error in errors
+                                        li #{error}
+                        .field
+                            .ui.left.icon.input
+                                i.user.icon
+                                input(type='text', name='email', placeholder='Email', value=email ? email : '')
+                        .field
+                            .ui.left.icon.input
+                                i.lock.icon
+                                input(type='password', name='password', placeholder='Password')
+                        .field
+                            .ui.left.icon.input
+                                i.lock.icon
+                                input(type='password', name='confirmPassword', placeholder='Confirm password')
+                        button.ui.large.button.submit.fluid.green(type='submit') Register
+                        .ui.message 
+                            | Already have an account?&nbsp;
+                            a(href='/register') Click here
+                            | &nbsp;to log in.
+                    .four.wide.column
+block scripts
+    script(src='/javascripts/home/register.js')

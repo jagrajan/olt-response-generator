@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+    .ui.container
+        .ui.list
+            for user in users
+                a.item(href='/users/profile/' + user._id)
+                    i.user.icon
+                    .content
+                        .header #{user.displayName()}
+                        .description Role: #{user.role}
