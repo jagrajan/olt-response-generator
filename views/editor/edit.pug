@@ -57,7 +57,24 @@ block content
                 textarea#main-editor(name='content')
                     if(snippet && snippet.content)
                         = snippet.content
-            button.ui.button(type='submit') Save
+            button.ui.button.green(type='submit') 
+                i.icon.save
+                |Save
+            if (snippet && snippet.author && (snippet.author.equals(currentUser._id) || currentUser.role === 'admin'))
+                .ui.button.delete-snippet-modal-show 
+                    i.icon.delete
+                    | Delete
+                .ui.basic.modal
+                    ui.icon.header
+                        i.trash.icon
+                        | Delete Snippet
+                    .content
+                        | Are you sure you wish to delete:&nbsp;
+                        = snippet.title
+                        |?
+                    .actions
+                        .ui.white.inverted.button.cancel Cancel
+                        a.delete-button.ui.red.inverted.button(href='/snippets/delete/' + snippet._id) Delete
 block scripts
     script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
     script(src='/javascripts/editor/edit.js')

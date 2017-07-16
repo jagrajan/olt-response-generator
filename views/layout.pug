@@ -20,7 +20,7 @@ html
                 i.user.icon
                 | #{currentUser.displayName()}
               .ui.flowing.bottom.left.transition.hidden.popup.profile-menu-item-popup
-                .ui.two.column.divided.left.aligned.grid
+                .ui.two.column.divided.left.aligned.grid(style='width:300px')
                   .column
                     .ui.list
                       .item
@@ -36,9 +36,9 @@ html
                       .item
                         a(href="/editor/edit") Create a Snippet
                       .item
-                        a(href="/snippets") All Snippets
-                      .item
                         a(href='/snippets/mysnippets') My Snippets
+                      .item
+                        a(href="/snippets") All Snippets
               a.ui.item(href='/logout')
                 i.sign.out.icon
                 | Log Out
