@@ -1,13 +1,20 @@
 extends ../layout
 
+block stylesheets
+    link(rel='stylesheet', href='/stylesheets/snippets/index.css')
+
 block content
     .ui.container.fluid(style='padding: 0 25px;')
         if snippets && snippets.length
             .ui.cards
                 for snippet in snippets
-                    a.card(href="#")
+                    a.card(href='/editor/edit/' + snippet._id)
                         .content
                             .header= snippet.title
                             .meta= snippet.type.charAt(0).toUpperCase() + snippet.type.slice(1)
-                            .description= snippet.content
-                            .meta.right.aligned= 'Submitted by ' + snippet.author.displayName()
+                            .main.description.convert-markdown= snippet.content
+                            .meta.right.aligned.author= 'Submitted by ' + snippet.author.displayName()
+
+block scripts
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.1/showdown.min.js')
+    script(src='/javascripts/snippets/index.js')

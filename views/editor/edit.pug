@@ -16,26 +16,47 @@ block content
                 ul.list
                     for error in errors
                         li #{error}
-        form.ui.form(method='post')
-            //input(type='hidden', value='documentId')
+        form.ui.form(method='post', action='/editor/edit')
+            if (snippet && snippet.author && (snippet.author.equals(currentUser._id) || currentUser.role === 'admin'))
+                input(type='hidden', name='documentId', value=snippet._id)
             .two.fields
                 .field
                     label Title
-                    input(type='text', name='title', placeholder='Title')
+                    if (snippet && snippet.title)
+                        if (snippet.author.equals(currentUser._id) || currentUser.role === 'admin')
+                            input(type='text', name='title', placeholder='Title', value=snippet.title)
+                        else
+                            input(type='text', name='title', placeholder='Title', value='Copy: ' + snippet.title)
+                    else 
+                        input(type='text', name='title', placeholder='Title')
                 .field
                     label Category
                     select.ui.fluid.dropdown(name='category')
-                        option(value='stockphrase') Stockphrase
-                        option(value='snippet') Snippet
-                        option(value='template') Template
+                        if (snippet && snippet.type && snippet.type==='stockphrase')
+                            option(value='stockphrase', selected) Stockphrase
+                        else
+                            option(value='stockphrase') Stockphrase
+                        if (snippet && snippet.type && snippet.type==='snippet')
+                            option(value='snippet', selected) Snippet
+                        else
+                            option(value='snippet') Snippet
+                        if (snippet && snippet.type && snippet.type==='template')
+                            option(value='template', selected) Template
+                        else
+                            option(value='template') Template
             .ui.segment
                 .field
                     .ui.toggle.checkbox
-                        input.hidden(type='checkbox', name='private')
+                        if(snippet && snippet.public===true)
+                            input.hidden(type='checkbox', name='private')
+                        else
+                            input.hidden(type='checkbox', name='private', checked)
                         label Keep private
             .field
                 label Content
                 textarea#main-editor(name='content')
+                    if(snippet && snippet.content)
+                        = snippet.content
             button.ui.button(type='submit') Save
 block scripts
     script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')

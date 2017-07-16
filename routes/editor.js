@@ -14,26 +14,38 @@ router.get('/edit', function(req, res, next) {
 
 router.post('/edit', function(req, res, next){
     var errors = [];
-    req.sanitize('title').escape();
     req.sanitize('documentId').escape();
-    req.sanitize('content').escape();
     req.sanitize('private').escape();
     req.sanitize('category').escape();
     var public = true;
     if (req.body.private) {
         public = false;
     }
+    if(['stockphrase', 'template', 'snippet'].indexOf(req.body.category) == -1) {
+        req.flash('error', 'Please select a valid category');
+        res.redirect('/editor/edit');
+    }
     if (req.body.documentId
         && idValidator.isValid(req.body.documentId)) {
-        Snippet.findById(req.body.documentID, function(err, snippet) {
+        Snippet.findById(req.body.documentId, function(err, snippet) {
             if (err) {
                 next(err);
             }
-
-            if (snippet && snippet.author.equals(req.user._id)) {
-                req.flash('info', 'Editing snippet');
-                return res.redirect('/editor/edit');
-                //TODO edit snippet
+            console.log(snippet);
+            if (snippet && (snippet.author.equals(req.user._id) || req.user.role === 'admin')) {
+                snippet.public = public;
+                snippet.type = req.body.category;
+                snippet.title = req.body.title;
+                snippet.content = req.body.content;
+                snippet.save(function(err) {
+                    if (err) {
+                        req.flash('error', 'Unable to update snippet');
+                        return res.redirect('/editor/edit');
+                    } else {
+                        req.flash('info', 'Snippet successfully updated');
+                        return res.redirect('/editor/edit');
+                    }
+                });
             } else {
                 req.flash('error', 'Unable to edit snippet');
                 return res.redirect('/editor/edit');
@@ -49,11 +61,32 @@ router.post('/edit', function(req, res, next){
         });
         newSnippet.save(function(err) {
             if (err) {
-                errors.push('Unable to create a new snippet');
+                req.flash('error', 'Unable to save new snippet');
+                return res.redirect('/editor/edit');
             }
             req.flash('info', 'Successfully created ' + newSnippet.type);
             return res.redirect('/editor/edit');
         });
+    }
+});
+
+router.get('/edit/:id', function(req, res, next) {
+    if (idValidator.isValid(req.params.id)) {
+        Snippet.findById(req.params.id, function(err, snippet) {
+            if (err) {
+                next(err);
+            }
+
+            if (snippet && (snippet.public === true || snippet.author.equals(req.user._id))) {
+                res.render('editor/edit', {title: 'Editor', snippet: snippet})
+            } else {
+                req.flash('error', 'Unable to find snippet');
+                res.redirect('/editor/edit');
+            }
+        });
+    } else {
+        req.flash('error', 'Unable to find snippet');
+        res.redirect('/editor/edit');
     }
 });
 
