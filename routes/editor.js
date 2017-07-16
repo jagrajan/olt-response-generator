@@ -40,15 +40,15 @@ router.post('/edit', function(req, res, next){
                 snippet.save(function(err) {
                     if (err) {
                         req.flash('error', 'Unable to update snippet');
-                        return res.redirect('/editor/edit');
+                        return res.redirect('/snippets/mysnippets');
                     } else {
                         req.flash('info', 'Snippet successfully updated');
-                        return res.redirect('/editor/edit');
+                        return res.redirect('/snippets/mysnippets');
                     }
                 });
             } else {
                 req.flash('error', 'Unable to edit snippet');
-                return res.redirect('/editor/edit');
+                return res.redirect('/snippets/mysnippets');
             }
         });
     } else {
@@ -62,10 +62,10 @@ router.post('/edit', function(req, res, next){
         newSnippet.save(function(err) {
             if (err) {
                 req.flash('error', 'Unable to save new snippet');
-                return res.redirect('/editor/edit');
+                return res.redirect('/snippets/mysnippets');
             }
             req.flash('info', 'Successfully created ' + newSnippet.type);
-            return res.redirect('/editor/edit');
+            return res.redirect('/snippets/mysnippets');
         });
     }
 });

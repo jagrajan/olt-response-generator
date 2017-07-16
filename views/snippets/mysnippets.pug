@@ -1,0 +1,59 @@
+extends ../layout
+
+block stylesheets
+    //link(rel='stylesheet', href='/stylesheets/snippets/index.css')
+
+block content
+    .ui.container
+        if infos && infos.length
+            .ui.info.message
+                .header Information
+                ul.list
+                    for info in infos
+                        li #{info}
+        if errors && errors.length
+            .ui.error.message
+                .header There were some errors
+                ul.list
+                    for error in errors
+                        li #{error}
+        if snippets && snippets.length
+            table.ui.table.single.line.selectable
+                thead
+                    tr
+                        th(colspan='3')
+                            | My Snippets
+                tbody
+                    for snippet in snippets
+                        tr
+                            td= snippet.title
+                            td= snippet.displayCategory()
+                            td(style='text-align:right')
+                                a.ui.button.blue.inverted(href='/editor/edit/' + snippet._id)
+                                    i.write.icon
+                                    | Edit
+                                button.ui.button.red.inverted.open-delete-modal-button(data-id=snippet._id, data-title=snippet.title)
+                                    i.delete.icon
+                                    | Delete
+        else
+            .ui.center.aligned
+                h2 No snippets found
+                p
+                    a(href="/editor/edit") Click here
+                    = ' '
+                    | to create one.
+    .ui.basic.modal
+        ui.icon.header
+            i.trash.icon
+            | Delete Snippet
+        .content
+            | Are you sure you wish to delete:&nbsp;
+            span.snippet-delete-name
+            |?
+        .actions
+            .ui.white.inverted.button.cancel Cancel
+            a.delete-button.ui.red.inverted.button Delete
+block scripts
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.1/showdown.min.js')
+    //script(src='/javascripts/snippets/index.js')
+    script(src='/javascripts/snippets/mysnippets.js')
