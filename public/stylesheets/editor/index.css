@@ -1,0 +1,10 @@
+body {
+    height: 100%;
+}
+
+.fluid.container {
+    background: yellow;
+    position: absolute;
+    top: 72px;
+    bottom: 0;
+}
