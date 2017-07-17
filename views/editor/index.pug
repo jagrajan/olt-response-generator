@@ -3,8 +3,91 @@ extends ../layout
 block stylesheets
     link(rel='stylesheet', href='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css')
 block content
-    .ui.container
-        textarea#main-editor
+    .ui.container.fluid(style='height:100%; padding:20px')
+        .ui.two.column.grid(style='height:100%')
+            .column.four.wide(style='height:100%;')
+                .ui.segment
+                    h4 Quick Notes
+                .ui.segment(style='height:100%;')
+                    h4 Snippets
+                    form.ui.form
+                        .field
+                            .ui.checkbox
+                                input.hidden(type='checkbox')
+                                label Stockphrases
+                        .field
+                            .ui.checkbox
+                                input.hidden(type='checkbox')
+                                label Snippets
+                        .field
+                            .ui.checkbox
+                                input.hidden(type='checkbox')
+                                label Templates
+                        .field
+                            .ui.checkbox
+                                input.hidden(type='checkbox')
+                                label Only my snippets
+                        .field
+                            .ui.icon.input.fluid
+                                input(type='text', placeholder='Search...')
+                                i.search.icon
+                    .ui.cards(style='margin-top: 10px; background:yellow; height:100%; overflow: scroll;')
+                        .card(style='width: 100%')
+                            .content
+                                .header Stockphrase Name
+                                .meta Stockphrase
+                                .description Actual Content
+                            .extra.content
+                                .ui.two.buttons
+                                    .ui.inverted.blue.button Copy
+                                    .ui.inverted.green.button Insert
+                        .card(style='width: 100%')
+                            .content
+                                .header Stockphrase Name
+                                .meta Stockphrase
+                                .description Actual Content
+                            .extra.content
+                                .ui.two.buttons
+                                    .ui.inverted.blue.button Copy
+                                    .ui.inverted.green.button Insert
+                        .card(style='width: 100%')
+                            .content
+                                .header Stockphrase Name
+                                .meta Stockphrase
+                                .description Actual Content
+                            .extra.content
+                                .ui.two.buttons
+                                    .ui.inverted.blue.button Copy
+                                    .ui.inverted.green.button Insert
+                        .card(style='width: 100%')
+                            .content
+                                .header Stockphrase Name
+                                .meta Stockphrase
+                                .description Actual Content
+                            .extra.content
+                                .ui.two.buttons
+                                    .ui.inverted.blue.button Copy
+                                    .ui.inverted.green.button Insert
+                        .card(style='width: 100%')
+                            .content
+                                .header Stockphrase Name
+                                .meta Stockphrase
+                                .description Actual Content
+                            .extra.content
+                                .ui.two.buttons
+                                    .ui.inverted.blue.button Copy
+                                    .ui.inverted.green.button Insert
+                        .card(style='width: 100%')
+                            .content
+                                .header Stockphrase Name
+                                .meta Stockphrase
+                                .description Actual Content
+                            .extra.content
+                                .ui.two.buttons
+                                    .ui.inverted.blue.button Copy
+                                    .ui.inverted.green.button Insert
+            .column.twelve.wide
+                textarea#main-editor
 block scripts
     script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
     script(src='/javascripts/editor/index.js')
