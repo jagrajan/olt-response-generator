@@ -5,37 +5,55 @@ block stylesheets
     link(rel='stylesheet', href='/stylesheets/editor/index.css')
 block content
     .ui.fluid.container
-    if false
-        .ui.container.fluid(style='padding:20px')
-            .ui.two.column.grid
-                .column.four.wide
-                    .ui.segment
-                        h4 Quick Notes
-                    .ui.segment
-                        h4 Snippets
-                        form.ui.form
-                            .field
-                                .ui.checkbox
-                                    input.hidden(type='checkbox')
-                                    label Stockphrases
-                            .field
-                                .ui.checkbox
-                                    input.hidden(type='checkbox')
-                                    label Snippets
-                            .field
-                                .ui.checkbox
-                                    input.hidden(type='checkbox')
-                                    label Templates
-                            .field
-                                .ui.checkbox
-                                    input.hidden(type='checkbox')
-                                    label Only my snippets
-                            .field
-                                .ui.icon.input.fluid
-                                    input(type='text', placeholder='Search...')
-                                    i.search.icon
-                .column.twelve.wide
+        .ui.two.column.grid.main
+            .column.four.wide.snippet-column(style='padding:20px;')
+                .ui.segment.quick-notes
+                    h4 Quick Notes
+                    .ui.form
+                        .field
+                            textarea(rows='6')
+                .ui.segment
+                    h4 Snippets
+                    .ui.form
+                        .field
+                            .ui.checkbox
+                                input(type='checkbox')
+                                label Stockphrases
+                        .field
+                            .ui.checkbox
+                                input(type='checkbox')
+                                label Snippets
+                        .field
+                            .ui.checkbox
+                                input(type='checkbox')
+                                label Templates
+                        .field
+                            .ui.checkbox
+                                input(type='checkbox')
+                                label Only my snippets
+                        .field
+                            .ui.icon.input.fluid
+                                input(type='text', placeholder='Search...')
+                                i.search.icon
+                .ui.segment.snippets-segment
+                    if snippets && snippets.length
+                        .ui.cards.snippet-block
+                            for snippet in snippets
+                                .card.snippet-block(style='width: 100%', data-category=snippet.type, data-author=snippet.author)
+                                    .content
+                                        .header= snippet.title
+                                        .meta= snippet.displayCategory()
+                                        .main.description.convert-markdown= snippet.content
+                                        .raw(style='display:none;')=snippet.content
+                                    .extra.content(style='text-align: center;')
+                                        .ui.buttons.tiny
+                                            .ui.button.copy-button Copy
+                                            .ui.button.insert-button Insert
+            .column.twelve.wide.editor-column(style='padding:20px;')
+                .ui.segment.editor-segment
+                    h4 Response Editor
                     textarea#main-editor
 block scripts
     script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.1/showdown.min.js')
     script(src='/javascripts/editor/index.js')

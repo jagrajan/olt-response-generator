@@ -13,7 +13,8 @@ block content
                             .header= snippet.title
                             .meta= snippet.type.charAt(0).toUpperCase() + snippet.type.slice(1)
                             .main.description.convert-markdown= snippet.content
-                            .meta.right.aligned.author= 'Submitted by ' + snippet.author.displayName()
+                        .extra.content(style='text-align: right;')
+                            = 'Submitted by ' + snippet.author.displayName()
 
 block scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.1/showdown.min.js')

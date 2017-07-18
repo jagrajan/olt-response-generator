@@ -9,7 +9,9 @@ function unescapeHtml(safe) {
         .replace(/&#039;/g, "'");
 }
 
-$('.convert-markdown').each(function() {
-    var text = $(this).html();
-    $(this).html(unescapeHtml(converter.makeHtml(text)));
+$(document).ready(function() {
+    $('.convert-markdown').each(function() {
+        var text = $(this).html();
+        $(this).html(unescapeHtml(converter.makeHtml(text)));
+    });
 });

@@ -1,10 +1,50 @@
-body {
+html, body {
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .fluid.container {
-    background: yellow;
     position: absolute;
     top: 72px;
     bottom: 0;
+    background: #cccccc;
+}
+
+.two.column.grid.main {
+    position: relative;
+    top: 14px;
+    height: 100%;
+}
+
+.editor-column {
+    height: 100%;
+}
+
+.editor-segment {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.snippet-column {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.snippets-segment {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+.quick-notes {
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }

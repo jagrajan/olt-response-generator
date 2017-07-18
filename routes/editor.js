@@ -5,7 +5,13 @@ var idValidator = require('valid-objectid');
 var Snippet = require('../models/snippet');
 
 router.get('/', function(req, res, next) {
-    return res.render('editor/index', {title: 'Editor'});
+    Snippet.find({$or: [{public: true}, {author: req.user._id}]}).populate('author')
+    .exec(function(err, snippets) {
+        if (err) {
+            return next(err);
+        }
+        return res.render('editor/index', {title: 'Snippets', snippets: snippets});
+    });
 });
 
 router.get('/edit', function(req, res, next) {
