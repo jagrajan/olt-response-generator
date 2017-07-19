@@ -12,14 +12,42 @@ function unescapeHtml(safe) {
 }
 
 function copyToClipboard(text) {
-    console.log(text);
     element = $('<textarea>').appendTo('body').val(text).select();
     document.execCommand('copy');
     element.remove();
 }
 
 function filterSnippets() {
-    //var showSnippets = 
+    var showSnippets = $('#showSnippets').checkbox('is checked');
+    var showStockphrases = $('#showStockphrases').checkbox('is checked');
+    var showTemplates = $('#showTemplates').checkbox('is checked');
+    var showMineOnly = $('#showMineOnly').checkbox('is checked');
+    var searchQuery = $('#searchSnippets').val();
+    $('.snippet-block').show();
+    if (showSnippets || showStockphrases || showTemplates) {
+        $('.snippet-block').hide();
+        $('.snippet-block').each(function() {
+            if (showStockphrases && $(this).data('category') === 'stockphrase') {
+                $(this).show();
+            } else if (showSnippets && $(this).data('category') === 'snippet') {
+                $(this).show();
+            } else if (showTemplates && $(this).data('category') === 'template') {
+                $(this).show();
+            }
+        })
+    }
+    if(showMineOnly) {
+        $('.snippet-block[data-author != ' + currentUserId + ']').hide();
+    }
+    if(searchQuery) {
+        searchQuery = searchQuery.toLowerCase();
+        $('.snippet-block:visible').each(function() {
+            if ($(this).find('.header').html().toLowerCase().indexOf(searchQuery) < 0) {
+                $(this).hide();
+            }
+        });
+    }
+
 }
 
 $(document).ready(function() {
@@ -33,6 +61,16 @@ $(document).ready(function() {
         $(this).html(unescapeHtml(text));
     });
 
+    $('.ui.checkbox').checkbox({
+        onChange: function() {
+            filterSnippets();
+        }
+    });
+
+    $("#searchSnippets").on('change keyup paste', function() {
+        filterSnippets();
+    });
+
     $('.snippet-block').each(function() {
         var content = $(this).find('.content .raw').html();
         $(this).find('.copy-button').click(function() {
@@ -41,7 +79,7 @@ $(document).ready(function() {
         $(this).find('.insert-button').click(function() {
             pos = simplemde.codemirror.getCursor();
             simplemde.codemirror.setSelection(pos, pos);
-            simplemde.codemirror.replaceSelection(content);
+            simplemde.codemirror.replaceSelection(unescapeHtml(content));
         });
     });
 });

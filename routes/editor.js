@@ -5,7 +5,7 @@ var idValidator = require('valid-objectid');
 var Snippet = require('../models/snippet');
 
 router.get('/', function(req, res, next) {
-    Snippet.find({$or: [{public: true}, {author: req.user._id}]}).populate('author')
+    Snippet.find({$or: [{public: true}, {author: req.user._id}]})
     .exec(function(err, snippets) {
         if (err) {
             return next(err);
