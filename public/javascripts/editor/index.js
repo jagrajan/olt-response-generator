@@ -50,6 +50,40 @@ function filterSnippets() {
 
 }
 
+function saveEditor () {
+    if (typeof(Storage) !== 'undefined') {
+        var text = simplemde.value();
+        // Store
+        localStorage.setItem("olt_editor_save", text);
+    }
+}
+
+function createQuickSnippet() {
+    var selectedText = simplemde.codemirror.getSelection();
+    console.log(selectedText);
+}
+
+function renderResponse () {
+    var w = window.open();
+    var html = unescapeHtml(converter.makeHtml(simplemde.value()));
+    $(w.document.body).html(html);
+
+    var head = w.document.head;
+    var link = w.document.createElement('link');
+
+    link.type = 'text/css'
+    link.rel = 'stylesheet'
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css'
+
+    head.appendChild(link)
+
+    $(w.document.body).find('hr').replaceWith('<div class="ui divider"></div>');
+    $(w.document.body).find('blockquote')
+        .css({'border-left' : '5px solid #eeeeee',
+                'margin' : '1em 2em',
+                'padding' : '9px 18px'})
+}
+
 $(document).ready(function() {
     $('.convert-markdown').each(function() {
         var text = $(this).html();
@@ -82,4 +116,17 @@ $(document).ready(function() {
             simplemde.codemirror.replaceSelection(unescapeHtml(content));
         });
     });
+
+    $('.render-button').click(renderResponse);
+    $('.quick-snippet-button').click(createQuickSnippet);
+
+
+
+    if (typeof(Storage) !== 'undefined') {
+        var text = localStorage.getItem("olt_editor_save");
+        if (text !== undefined && text !== null && text !== '') {
+            simplemde.value(text);
+        }
+        setInterval(saveEditor, 3000);
+    }
 });
