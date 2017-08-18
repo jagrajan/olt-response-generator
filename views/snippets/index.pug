@@ -4,11 +4,36 @@ block stylesheets
     link(rel='stylesheet', href='/stylesheets/snippets/index.css')
 
 block content
+    .ui.container
+        .ui.segment.basic.padded
+            .ui.form
+                .field
+                    label Search
+                    .ui.icon.input.fluid
+                        input#searchSnippets(type='text', placeholder='Search...')
+                        i.search.icon
+                .fields
+                    .field.four.wide
+                        .ui.checkbox#showSnippets
+                            input(type='checkbox').hidden
+                            label Show snippets
+                    .field.four.wide
+                        .ui.checkbox#showStockphrases
+                            input(type='checkbox').hidden
+                            label Show stockphrases
+                    .field.four.wide
+                        .ui.checkbox#showTemplates
+                            input(type='checkbox').hidden
+                            label Show templates
+                    .field.four.wide
+                        .ui.checkbox#showMineOnly
+                            input(type='checkbox').hidden
+                            label Only show my snippets
     .ui.container.fluid(style='padding: 0 25px;')
         if snippets && snippets.length
             .ui.cards
                 for snippet in snippets
-                    a.card(href='/editor/edit/' + snippet._id)
+                    a.card.snippet-block(href='/editor/edit/' + snippet._id, data-category=snippet.type, data-author=snippet.author._id)
                         .content
                             .header= snippet.title
                             .meta= snippet.type.charAt(0).toUpperCase() + snippet.type.slice(1)
@@ -18,4 +43,5 @@ block content
 
 block scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.1/showdown.min.js')
+    script !{'var currentUserId = "' + currentUser._id + '";'}
     script(src='/javascripts/snippets/index.js')

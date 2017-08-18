@@ -37,7 +37,6 @@ router.post('/edit', function(req, res, next){
             if (err) {
                 next(err);
             }
-            console.log(snippet);
             if (snippet && (snippet.author.equals(req.user._id) || req.user.role === 'admin')) {
                 snippet.public = public;
                 snippet.type = req.body.category;

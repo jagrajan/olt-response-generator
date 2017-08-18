@@ -58,9 +58,8 @@ function saveEditor () {
     }
 }
 
-function createQuickSnippet() {
-    var selectedText = simplemde.codemirror.getSelection();
-    console.log(selectedText);
+function createQuickSnippet(button) {
+    
 }
 
 function renderResponse () {
@@ -81,7 +80,8 @@ function renderResponse () {
     $(w.document.body).find('blockquote')
         .css({'border-left' : '5px solid #eeeeee',
                 'margin' : '1em 2em',
-                'padding' : '9px 18px'})
+                'padding' : '9px 18px'});
+    $(w.document.body).find('*').css({'font-family': '"Trebuchet MS", Helvetica, sans-serif'});
 }
 
 $(document).ready(function() {
@@ -118,7 +118,27 @@ $(document).ready(function() {
     });
 
     $('.render-button').click(renderResponse);
-    $('.quick-snippet-button').click(createQuickSnippet);
+    $('.quick-snippet-button').click(function() {
+        button = $(this);
+        $(button).addClass('loading');
+        var selectedText = simplemde.codemirror.getSelection();
+        $.ajax({
+            dataType: 'json',
+            url: '/api/v1/snippets/quick_create',
+            success: function(data) {
+                if (data.success) {
+                    $(button).removeClass('loading').addClass('green');
+                } else {
+                    $(button).removeClass('loading').addClass('red');
+                }
+                setTimeout(function() {
+                    $(button).removeClass('green red');
+                }, 2000);
+            },
+            type: 'POST',
+            data: {'content': selectedText}
+        });
+    });
 
 
 

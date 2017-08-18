@@ -16,6 +16,7 @@ var home = require('./routes/home');
 var users = require('./routes/users');
 var editor = require('./routes/editor');
 var snippets = require('./routes/snippets');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -65,6 +66,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.use('/', home);
+app.use('/api', api);
 app.use('/users', ensureAuthenticated, users);
 app.use('/editor', ensureAuthenticated, editor);
 app.use('/snippets', ensureAuthenticated, snippets);
